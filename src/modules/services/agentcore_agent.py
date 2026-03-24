@@ -6,7 +6,7 @@ Payload sent to AgentCore:
     {"input": "<user text>", "sessionAttributes": {<client data>}}
 
 Response expected from AgentCore:
-    {"txt": "...", "end": false, "st": null, "amount": null, "date": null, "alt_phone": null}
+    {"sessionid": "<uuid>", "txt": "...", "end": true/false}
 """
 
 import json
@@ -15,6 +15,7 @@ import logging
 import boto3
 from botocore.config import Config as BotoConfig
 
+from src.modules.models.agent_response import AgentResponse
 from src.modules.services.base_agent import BaseAgentService
 from src.modules.utils.config import Config
 
@@ -79,11 +80,11 @@ class AgentCoreService(BaseAgentService):
 
         result = self._read_response(response)
 
-        logger.debug("AgentCore agent response: %s", result.get("txt", "")[:200])
-        return result
+        logger.debug("AgentCore agent response: %s", result.txt[:200])
+        return result.to_dict()
 
-    def _read_response(self, response: dict) -> dict:
-        """Parse the AgentCore response into a structured dict."""
+    def _read_response(self, response: dict) -> AgentResponse:
+        """Parse the AgentCore response into an ``AgentResponse``."""
         content_type = response.get("contentType", "")
 
         # Streaming event-stream response
@@ -119,4 +120,4 @@ class AgentCoreService(BaseAgentService):
             logger.error("Unexpected AgentCore response shape: %s", result)
             raise RuntimeError('AgentCore response missing "txt" field')
 
-        return result
+        return AgentResponse.from_dict(result)

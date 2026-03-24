@@ -24,6 +24,24 @@ The Lambda supports three interchangeable agent backends, selected via the `AGEN
 | `agentcore` | `AgentCoreService` | Bedrock AgentCore runtime endpoint |
 | `ec2` | `Ec2AgentService` | HTTP POST to an agent running on EC2 |
 
+## Agent Response Format
+
+All agent backends return a structured response conforming to the `AgentResponse` model defined in `src/modules/models/agent_response.py`:
+
+```json
+{
+  "sessionid": "a uuid identifying the conversation session",
+  "txt": "the agent's textual reply",
+  "end": true
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `sessionid` | `str` | UUID identifying the conversation session |
+| `txt` | `str` | The agent's textual reply |
+| `end` | `bool` | `true` if the conversation has ended, `false` otherwise |
+
 ## Project Structure
 
 ```
@@ -43,6 +61,8 @@ demo-lex-bedrock/
 │   └── modules/
 │       ├── handlers/
 │       │   └── lex_handler.py          # Lex event parser + response formatter
+│       ├── models/
+│       │   └── agent_response.py       # AgentResponse dataclass
 │       ├── services/
 │       │   ├── base_agent.py           # ABC + factory function
 │       │   ├── bedrock_agent.py        # Bedrock Agent Runtime client

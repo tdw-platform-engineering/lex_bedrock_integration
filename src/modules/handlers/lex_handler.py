@@ -12,7 +12,6 @@ from datetime import datetime, timezone
 
 from src.modules.services.base_agent import BaseAgentService, create_agent_service
 from src.modules.services.customer_profiles import CustomerProfilesService
-from src.modules.services.promesa_store import PromesaStore
 from src.modules.utils.config import Config
 
 logger = logging.getLogger(__name__)
@@ -27,7 +26,6 @@ class LexHandler:
             self.config.agent_provider
         )
         self.customer_profiles_service = CustomerProfilesService(self.config)
-        self.promesa_store = PromesaStore(self.config)
         logger.info("Using agent provider: %s", self.config.agent_provider)
 
     # ------------------------------------------------------------------
@@ -116,9 +114,6 @@ class LexHandler:
 
         logger.debug("Respuesta estructurada recibida: %s", response.get("txt", "")[:200])
         return responseg("Respuesta estructurada recibida: %s", response.get("txt", "")[:200])
-        else:
-            logger.debug("Respuesta recibida: %s", response[:200] if response else "")
-        return response
 
     # ------------------------------------------------------------------
     # 3. Build agent input text
@@ -169,12 +164,6 @@ class LexHandler:
             agent_response.get("amount"),
             agent_response.get("date"),
         )
-
-        # Persist accepted payment promise to DynamoDB
-        if agent_response.get("st") == "PROMESA_ACEPTADA":
-            session_id = lex_data.get("conversationHistory", {}).get("sessionId", "")
-            session_attrs = lex_data.get("conversationHistory", {}).get("sessionAttributes", {})
-            self.promesa_store.save_promesa(session_id, agent_response, session_attrs)
 
         intent_state = "Fulfilled" if should_end_call else "Failed"
         completed = "true" if intent_state == "Fulfilled" else "false"
