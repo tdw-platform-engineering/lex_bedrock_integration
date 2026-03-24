@@ -1,0 +1,64 @@
+{
+    "inputTranscript": "si, confirmamos",
+    "rawInputTranscript": "si, confirmamos",
+    "interpretations": [
+        {
+            "intent": {
+                "confirmationState": "None",
+                "name": "PruebaESUS",
+                "slots": {},
+                "state": "ReadyForFulfillment"
+            },
+            "interpretationSource": "Lex",
+            "nluConfidence": 0.77
+        },
+        {
+            "intent": {
+                "confirmationState": "None",
+                "name": "FallbackIntent",
+                "slots": {},
+                "state": "ReadyForFulfillment"
+            },
+            "interpretationSource": "Lex"
+        }
+    ],
+    "bot": {
+        "aliasId": "TSTALIASID",
+        "aliasName": "TestBotAlias",
+        "name": "Demo-Collector-Agent",
+        "version": "DRAFT",
+        "localeId": "es_US",
+        "id": "YNPA0I5UEA"
+    },
+    "responseContentType": "text/plain; charset=utf-8",
+    "messageVersion": "1.0",
+    "invocationSource": "FulfillmentCodeHook",
+    "sessionState": {
+        "intent": {
+            "confirmationState": "None",
+            "name": "PruebaESUS",
+            "slots": {},
+            "state": "ReadyForFulfillment"
+        },
+        "originatingRequestId": "7916d331-3ebe-3c20-8249-d858298bd7a2",
+        "sessionAttributes": {
+            "x-amz-lex:connect-originating-request-id": "7916d331-3ebe-3c20-8249-d858298bd7a2",
+            "contactId": "A1da07cb-751e-4fa4-be38-0f4042303b9d",
+            "clientName":"Williams Amaya",
+            "cardNumber":"4789",
+            "totalBalance":"1700",
+            "minPayment":"630",
+            "daysDelinquent":"5",
+            "cycle":"14",
+            "minDate":"2026-03-19",
+            "maxDate":"2026-04-10"
+        },
+        "activeContexts": []
+    },
+    "inputMode": "Speech",
+    "sessionId": "A1da07cb-751e-4fa4-be38-0f4042303b9d",
+    "requestAttributes": {
+        "x-amz-lex:accept-content-types": "PlainText,SSML",
+        "x-amz-lex:channels:platform": "Connect"
+    }
+}

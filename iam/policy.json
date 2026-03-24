@@ -1,0 +1,50 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CloudWatchLogsWrite",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:<REGION>:<ACCOUNT_ID>:log-group:/aws/lambda/demo-lex-bedrock:*"
+    },
+    {
+      "Sid": "InvokeBedrockAgent",
+      "Effect": "Allow",
+      "Action": [
+        "bedrock:InvokeAgent"
+      ],
+      "Resource": [
+        "arn:aws:bedrock:<REGION>:<ACCOUNT_ID>:agent/*",
+        "arn:aws:bedrock:<REGION>:<ACCOUNT_ID>:agent-alias/*"
+      ]
+    },
+    {
+      "Sid": "InvokeAgentCoreRuntime",
+      "Effect": "Allow",
+      "Action": [
+        "bedrock:InvokeAgentRuntime"
+      ],
+      "Resource": "arn:aws:bedrock-agentcore:<REGION>:<ACCOUNT_ID>:runtime/*"
+    },
+    {
+      "Sid": "UpdateConnectCustomerProfile",
+      "Effect": "Allow",
+      "Action": [
+        "profile:UpdateProfile"
+      ],
+      "Resource": "arn:aws:profile:<REGION>:<ACCOUNT_ID>:domains/<DOMAIN_NAME>/profiles/*"
+    },
+    {
+      "Sid": "WriteOutboundCallTranscript",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:PutItem"
+      ],
+      "Resource": "arn:aws:dynamodb:<REGION>:<ACCOUNT_ID>:table/connect_outbound_call_transcript"
+    }
+  ]
+}
